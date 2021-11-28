@@ -7,6 +7,7 @@
       @resize="handleResize"
       @click="handleClick"
       @mousemove="handleMousemove"
+      @mouseout="handleMouseout"
       @mousedown="handleMousedown"
       @mouseup="handleMouseup"
     />
@@ -18,15 +19,14 @@
     />
   </div>
   <button @click="deleteAll">Очистить</button>
-  <button @click="stopDrawing">Закончить фигуру</button>
   <p>
     <span>Drag: {{ drag }}</span>
   </p>
-  <!-- <p>
+  <p>
     <span>X: {{ cursor.x }}</span>
     <b> || </b>
     <span>Y: {{ cursor.y }}</span>
-  </p> -->
+  </p>
 </template>
 <script>
 import Drawer from "@/classes/Drawer";
@@ -96,7 +96,7 @@ export default {
       }
     },
     handleMousemove(event) {
-      // this.cursor = { x: event.clientX, y: event.clientY };
+      this.cursor = { x: event.clientX, y: event.clientY };
       this.findPoint(event.clientX, event.clientY);
       if (this.drag) {
         this.canvasObjects.draggablePoint.x = event.clientX
@@ -118,6 +118,9 @@ export default {
         });
       }
 
+    },
+    handleMouseout() {
+      this.cursor = {x: 0, y: 0}
     },
     handleMousedown(event) {
       this.mousedown = true;
